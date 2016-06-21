@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.pack.combopack.bean.Packable;
+import com.pack.combopack.exception.PackagingException;
 
-public class DynamicPackager implements KnapsackPackager {
+public class DynamicPackager extends AbstractKnapSackPackager {
 
 	// @Override
-	public <T extends Packable> List<T> pack(List<T> packables, double maxWeight) {
+	public <T extends Packable> List<T> pack(List<T> packables, double maxWeight)throws PackagingException {
 		
 		//TODO: Need to AOP in future for separation of concern and remove validate  and removeUnwantedItems call
 		

@@ -29,4 +29,12 @@ public class Item implements Packable {
 		return ""+id ;
 	}
 
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+
 }

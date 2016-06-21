@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.pack.combopack.bean.Box;
 import com.pack.combopack.bean.Item;
+import com.pack.combopack.exception.PackagingException;
 import com.pack.combopack.packer.BruteForcePackager;
 import com.pack.combopack.packer.DynamicPackager;
 import com.pack.combopack.packer.GreedyPackager;
@@ -19,7 +20,7 @@ import com.pack.combopack.packer.KnapsackPackager;
 
 public class AppTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws PackagingException{
 
 		List<KnapsackPackager> packers = Arrays.asList(
 				new BruteForcePackager(), 
