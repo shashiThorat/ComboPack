@@ -1,34 +1,25 @@
 package com.pack.combopack.packer;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.pack.combopack.bean.BinPack;
 import com.pack.combopack.bean.Packable;
-import com.pack.combopack.constraint.PackagingValidator;
 import com.pack.combopack.exception.PackagingException;
 
 public interface KnapsackPackager {
 
-	default <T extends Packable> PackagingValidator getConstraint(
-			List<T> items, double maxWeight) {
-		return null;
-	}
+    <T extends Packable, B extends BinPack<T>> List<T> pack(B inputPack) throws PackagingException;
 
-	<T extends Packable> List<T> pack(List<T> items, double maxWeight)
-			throws PackagingException;
+    
+    default <T extends Packable> double getTotalWeight(List<T> items) {
 
-	
-	default <T extends Packable> List<T> removeUnwantedItems(List<T> items,
-			Double maxWeight) {
+        return null == items || items.isEmpty() ? 0.0 : items.stream().mapToDouble(T::getWeight).sum();
+    }
 
-		List<T> itemsForSelection = new ArrayList<T>();
-		for (T packable : items) {
-			if (packable.getWeight() <= maxWeight)
-				itemsForSelection.add(packable);
-		}
+    
+    default <T extends Packable> Double getTotalPrice(List<T> items) {
 
-		return itemsForSelection;
-
-	}
+        return null == items || items.isEmpty() ? 0.0 : items.stream().mapToDouble(T::getValue).sum();
+    }
 
 }

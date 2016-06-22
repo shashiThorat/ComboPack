@@ -2,32 +2,49 @@ package com.pack.combopack.packer;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import com.pack.combopack.bean.BinPack;
 import com.pack.combopack.bean.Packable;
 import com.pack.combopack.exception.PackagingException;
 
 public class GreedyPackager extends AbstractKnapSackPackager {
 
-	@Override
-	public <T extends Packable> List<T> pack(List<T> packables, double maxWeight) throws PackagingException{
+    Comparator<Packable> profitableComparator = (v1, v2) -> Double.compare(v2.getValue() / v2.getWeight(),
+            v1.getValue() / v1.getWeight());
 
-		//TODO: Need to AOP in future for separation of concern and remove validate  and removeUnwantedItems call
-		validate(packables, maxWeight);
-		packables=removeUnwantedItems(packables, maxWeight);
-		if(packables.isEmpty() )
-			return null;
-		Collections.sort(packables, packables.get(0).profitableComparator());
-		List<T> selectedForPacking = new ArrayList<T>();
-		Double totalSelectItemWeght = 0d;
-		for (T packable : packables) {
-			if ((totalSelectItemWeght + packable.getWeight()) > maxWeight)
-				continue;
-			selectedForPacking.add(packable);
-			totalSelectItemWeght += packable.getWeight();
-		}
+    @Override
+    public <T extends Packable, B extends BinPack<T>> List<T> pack(B inputPack) throws PackagingException {
 
-		return selectedForPacking;
-	}
+        validate(inputPack);
+
+        List<T> packables = inputPack.getPackableBins();
+
+        if (packables.isEmpty())
+            return null;
+
+        Collections.sort(packables, profitableComparator);
+        List<T> selectedForPacking = new ArrayList<T>();
+
+        Double totalSelectItemWeght = 0d;
+
+        for (T packable : packables) {
+            if ((totalSelectItemWeght + packable.getWeight()) > inputPack.getCapacity())
+                continue;
+            selectedForPacking.add(packable);
+            totalSelectItemWeght += packable.getWeight();
+        }
+
+        return selectedForPacking;
+    }
+
+    public Comparator<Packable> getProfitableComparator() {
+        return profitableComparator;
+    }
+
+    public void setProfitableComparator(Comparator<Packable> profitableComparator) {
+        this.profitableComparator = profitableComparator;
+    }
 
 }

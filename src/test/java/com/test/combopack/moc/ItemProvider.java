@@ -10,10 +10,10 @@ import com.pack.combopack.bean.Item;
 public class ItemProvider {
 
 	public static List<Box<Item>> availableBoxs=Arrays.asList(
-			new Box<Item>(1, 81d),
-			new Box<Item>(2, 8d),
-			new Box<Item>(3, 75d),
-			new Box<Item>(4, 56d)
+			new Box<Item>(1,getAvailableItems(1), 81d),
+			new Box<Item>(2,getAvailableItems(2), 8d),
+			new Box<Item>(3,getAvailableItems(3), 75d),
+			new Box<Item>(4,getAvailableItems(4), 56d)
 			);
 			
 	
@@ -61,8 +61,8 @@ public class ItemProvider {
 		case 0:
 			return 
 					Arrays.asList(
-							new Item(1, 0.5, 1d), 
-							new Item(2, 0.5, 2d));
+							new Item(1, 0.8, 1d), 
+							new Item(2, 0.8, 2d));
 
 		}
 
