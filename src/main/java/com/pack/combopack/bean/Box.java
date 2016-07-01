@@ -3,7 +3,7 @@ package com.pack.combopack.bean;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Box<T extends Packable> implements BinPack<T> {
+public class Box<T extends Packable> implements BinPack {
 
     private int id;
     private List<T> bins;
@@ -28,6 +28,7 @@ public class Box<T extends Packable> implements BinPack<T> {
         this.id = id;
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> getBins() {
         return bins;
     }
@@ -45,6 +46,7 @@ public class Box<T extends Packable> implements BinPack<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<T> getPackableBins() {
 
         return bins.stream().filter(x -> x.getWeight() <= capacity).collect(Collectors.toList());

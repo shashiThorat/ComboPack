@@ -7,29 +7,28 @@ import java.util.List;
 
 import com.pack.combopack.bean.BinPack;
 import com.pack.combopack.bean.Packable;
-import com.pack.combopack.exception.PackagingException;
 
-public class GreedyPackager extends AbstractKnapSackPackager {
+public final class GreedyPackager extends AbstractKnapSackPackager {
 
-    Comparator<Packable> profitableComparator = (v1, v2) -> Double.compare(v2.getValue() / v2.getWeight(),
+   final private Comparator<Packable> profitableComparator = (v1, v2) -> Double.compare(v2.getValue() / v2.getWeight(),
             v1.getValue() / v1.getWeight());
 
     @Override
-    public <T extends Packable, B extends BinPack<T>> List<T> pack(B inputPack) throws PackagingException {
+    public List<Packable> pack(BinPack inputPack)  {
 
         validate(inputPack);
 
-        List<T> packables = inputPack.getPackableBins();
+        List<Packable> packables = inputPack.getPackableBins();
 
         if (packables.isEmpty())
             return null;
 
         Collections.sort(packables, profitableComparator);
-        List<T> selectedForPacking = new ArrayList<T>();
+        List<Packable> selectedForPacking = new ArrayList<Packable>();
 
         Double totalSelectItemWeght = 0d;
 
-        for (T packable : packables) {
+        for (Packable packable : packables) {
             if ((totalSelectItemWeght + packable.getWeight()) > inputPack.getCapacity())
                 continue;
             selectedForPacking.add(packable);
@@ -40,11 +39,10 @@ public class GreedyPackager extends AbstractKnapSackPackager {
     }
 
     public Comparator<Packable> getProfitableComparator() {
+        
         return profitableComparator;
     }
 
-    public void setProfitableComparator(Comparator<Packable> profitableComparator) {
-        this.profitableComparator = profitableComparator;
-    }
+   
 
 }

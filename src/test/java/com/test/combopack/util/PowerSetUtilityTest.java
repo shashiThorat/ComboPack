@@ -14,37 +14,36 @@ import com.pack.combopack.bean.Item;
 
 public class PowerSetUtilityTest {
 
-	@Test
-	public void genrateSet() {
-		
-		List<List<Item>> items=genratePowerSet(getAvailableItems(0));
-		assertEquals("", items.size(), 4);
-		
+    @Test
+    public void genrateSet() {
 
-	}
-	@Test
-	public void genrateIntegerSet() {
-		
-		List<List<Integer>> items=genratePowerSet(Arrays.asList(1,2));
-		assertEquals("", items.size(), 4);
-		
+        List<List<Item>> items = genratePowerSet(getAvailableItems(0));
+        assertEquals("", items.size(), 4);
 
-	}
-	@Test
-	public void genrateNullSet() {
-		
-		List<List<Integer>> items=genratePowerSet(null);
-		assertEquals("", items.size(), 0);
-		
+    }
 
-	}
-	@Test
-	public void genrateEmptySet() {
-		
-		List<List<Integer>> items=genratePowerSet(new ArrayList<Integer>());
-		assertEquals("", items.size(), 0);
-		
+    @Test
+    public void genrateIntegerSet() {
 
-	}
+        List<List<Integer>> items = genratePowerSet(Arrays.asList(1, 2));
+        assertEquals("", items.size(), 4);
+
+    }
+
+    @Test
+    public void genrateNullSet() {
+
+        List<List<Integer>> items = genratePowerSet(null);
+        assertEquals("", items.size(), 0);
+
+    }
+
+    @Test
+    public void genrateEmptySet() {
+
+        List<List<Integer>> items = genratePowerSet(new ArrayList<Integer>());
+        assertEquals("", items.size(), 0);
+
+    }
 
 }

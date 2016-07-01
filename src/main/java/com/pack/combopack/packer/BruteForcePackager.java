@@ -6,24 +6,24 @@ import java.util.List;
 
 import com.pack.combopack.bean.BinPack;
 import com.pack.combopack.bean.Packable;
-import com.pack.combopack.exception.PackagingException;
 
-public class BruteForcePackager extends AbstractKnapSackPackager {
+public final class BruteForcePackager extends AbstractKnapSackPackager {
 
     @Override
-    public <T extends Packable, B extends BinPack<T>> List<T> pack(B inputPack) throws PackagingException {
+    // <T extends Packable, B extends BinPack<T>>
+    public  List<Packable> pack(BinPack inputPack)  {
 
         validate(inputPack);
 
-        List<T> packables = inputPack.getPackableBins();
+        List<Packable> packables = inputPack.getPackableBins();
 
-        List<List<T>> powerSet = genratePowerSet(packables);
+        List<List<Packable>> powerSet = genratePowerSet(packables);
 
-        List<T> maxPriceItems = null;
+        List<Packable> maxPriceItems = null;
 
         double maxPrice = 0d;
 
-        for (List<T> list : powerSet) {
+        for (List<Packable> list : powerSet) {
 
             double currentItemsWeight = getTotalWeight(list);
 

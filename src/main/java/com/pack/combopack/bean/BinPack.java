@@ -2,15 +2,15 @@ package com.pack.combopack.bean;
 
 import java.util.List;
 
-public interface BinPack<T> {
+public interface BinPack {
 
     int getId();
 
     double getCapacity();
 
-    List<T> getBins();
-    
-    //Returns all beans which weight is less than Capacity  
-    List<T> getPackableBins();
+    <T extends Packable> List<T> getBins();
+
+    // Returns all beans which weight is less than Capacity
+    <T extends Packable> List<T> getPackableBins();
 
 }

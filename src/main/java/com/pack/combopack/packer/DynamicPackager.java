@@ -5,20 +5,20 @@ import java.util.List;
 
 import com.pack.combopack.bean.BinPack;
 import com.pack.combopack.bean.Packable;
-import com.pack.combopack.exception.PackagingException;
 
-public class DynamicPackager extends AbstractKnapSackPackager {
+public final class DynamicPackager extends AbstractKnapSackPackager {
+    
 
     @Override
-    public <T extends Packable, B extends BinPack<T>> List<T> pack(B inputPack) throws PackagingException {
+    public  List<Packable> pack(BinPack inputPack) {
 
         validate(inputPack);
 
-        List<T> packables = inputPack.getPackableBins();
+        List<Packable> packables = inputPack.getPackableBins();
 
         double maxWeight = inputPack.getCapacity();
 
-        List<T> tempList = new ArrayList<T>();
+        List<Packable> tempList = new ArrayList<Packable>();
 
         int n = packables.size();
 
