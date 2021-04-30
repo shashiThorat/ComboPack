@@ -2,42 +2,68 @@ package com.pack.combopack.packer;
 
 import java.util.List;
 
+import com.pack.combopack.bean.BinPack;
 import com.pack.combopack.bean.Packable;
-import com.pack.combopack.constraint.KnapsackPackagingValidator;
-import com.pack.combopack.constraint.PackagingValidator;
-import com.pack.combopack.exception.PackagingException;
 
-public abstract class AbstractKnapSackPackager implements PackagingValidator,
-		KnapsackPackager {
+public abstract class AbstractKnapSackPackager implements KnapsackPackager {
 
-	protected static final PackagingValidator DEFAULT_VALIDATOR = new KnapsackPackagingValidator();
+    private final double maxCapacity;
 
-	PackagingValidator validator;
+    private final int maxAllowedItems;
+    private final double maxItemWt;
+    private final double maxItemValue;
 
-	public AbstractKnapSackPackager() {
-		validator = DEFAULT_VALIDATOR;
-	}
+    public AbstractKnapSackPackager() {
+        this.maxCapacity = DEFAULT_MAX_CAPACITY;
+        this.maxAllowedItems = DEFAULT_ALLOWED_ITEMS;
+        this.maxItemWt = DEFAULT_MAX_ITEM_WT;
+        this.maxItemValue = DEFAULT_MAX_ITEM_VALUE;
 
-	public AbstractKnapSackPackager(PackagingValidator validator) {
+    }
 
-		this.validator = validator;
-	}
+    public AbstractKnapSackPackager(double maxCapacity, int maxAllowedItems, double maxItemWt, double maxItemValue) {
+        super();
+        this.maxCapacity = maxCapacity;
+        this.maxAllowedItems = maxAllowedItems;
+        this.maxItemWt = maxItemWt;
+        this.maxItemValue = maxItemValue;
+    }
 
-	public <T extends Packable> void validate(List<T> items, double maxWeight)
-			throws PackagingException {
-		if (items == null || items.isEmpty() || maxWeight <= 0)
-			throw new PackagingException(
-					"Packaging inputs are invalid.Required atleast on packable Iteam and alloewed weight should be greater than 0 ");
-		
-		validator.validate(items, maxWeight);
-	}
+    protected boolean isValidInputWt(double inputWt) {
 
-	public PackagingValidator getValidator() {
-		return validator;
-	}
+        return inputWt <= 0 || inputWt > maxCapacity ? false : true;
 
-	public void setValidator(PackagingValidator validator) {
-		this.validator = validator;
-	}
+    }
 
+    protected boolean isValidInputPackable(List<Packable> packables) {
+
+        if (packables != null && !packables.isEmpty() && packables.size() < maxAllowedItems) {
+
+            return packables.stream()
+
+            .allMatch(x -> x.getWeight() < maxItemWt && x.getValue() < maxItemValue);
+
+        }
+        return false;
+
+    }
+
+    boolean isValidBinPack(BinPack inputPack) {
+
+        return inputPack != null
+
+        && isValidInputWt(inputPack.getCapacity())
+
+        && isValidInputPackable(inputPack.getBins());
+
+    }
+
+    public void validate(BinPack inputPack) {
+
+        if (!isValidBinPack(inputPack)) {
+
+            throw new IllegalArgumentException("Invalid Packing Inputs");
+
+        }
+    }
 }

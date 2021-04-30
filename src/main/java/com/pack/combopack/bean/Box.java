@@ -1,42 +1,56 @@
 package com.pack.combopack.bean;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+public class Box<T extends Packable> implements BinPack {
 
+    private int id;
+    private List<T> bins;
+    private double capacity;
 
-public class Box<T extends Packable> {
-	private int id;
-	private  List<T> items;
-    private double maxWeight;
-	
-	public Box(int id ,double maxWeight) {
-		
-		this.maxWeight=maxWeight;
-		this.id = id;
-	}
+    public Box() {
 
-	
+    }
 
-	@Override
-	public String toString() {
-		return "Box [id=" + id + ", items=" + items + "]";
-	}
+    public Box(int id, List<T> bins, double capacity) {
+        super();
+        this.id = id;
+        this.bins = bins;
+        this.capacity = capacity;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public double getMaxWeight() {
-		return maxWeight;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    @SuppressWarnings("unchecked")
+    public List<T> getBins() {
+        return bins;
+    }
 
+    public void setBins(List<T> bins) {
+        this.bins = bins;
+    }
 
-	public void setItems(List<T> itemList) {
-		this.items = itemList;
-	}
+    public double getCapacity() {
+        return capacity;
+    }
 
-	
-  
+    public void setCapacity(double capacity) {
+        this.capacity = capacity;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<T> getPackableBins() {
+
+        return bins.stream().filter(x -> x.getWeight() <= capacity).collect(Collectors.toList());
+
+    }
 
 }

@@ -1,46 +1,48 @@
 package com.pack.combopack.packer;
 
-import static com.pack.combopack.util.PackageUtility.getTotalPrice;
-import static com.pack.combopack.util.PackageUtility.getTotalWeight;
 import static com.pack.combopack.util.PowerSetUtility.genratePowerSet;
 
 import java.util.List;
 
+import com.pack.combopack.bean.BinPack;
 import com.pack.combopack.bean.Packable;
-import com.pack.combopack.exception.PackagingException;
 
-public class BruteForcePackager extends AbstractKnapSackPackager {
+public final class BruteForcePackager extends AbstractKnapSackPackager {
 
-	@Override
-	public <T extends Packable> List<T> pack(List<T> packables, double maxWeight)throws PackagingException {
-		//TODO: Need to AOP in future for separation of concern and remove validate  and removeUnwantedItems call
-		
-		validate(packables, maxWeight);
-		packables=removeUnwantedItems(packables, maxWeight);
-		List<List<T>> powerSet = genratePowerSet(packables);
-		List<T> maxPriceItems = null;
-		double maxPrice = 0d;
+    @Override
+    // <T extends Packable, B extends BinPack<T>>
+    public  List<Packable> pack(BinPack inputPack)  {
 
-		for (List<T> list : powerSet) {
+        validate(inputPack);
 
-			double currentItemsWeight = getTotalWeight(list);
+        List<Packable> packables = inputPack.getPackableBins();
 
-			if (currentItemsWeight <= maxWeight) {
-				double currentItemsValue = getTotalPrice(list);
+        List<List<Packable>> powerSet = genratePowerSet(packables);
 
-				if (currentItemsValue > maxPrice) {
-					maxPriceItems = list;
-					maxPrice = currentItemsValue;
-				} else if (currentItemsValue == maxPrice
-						&& currentItemsWeight < getTotalWeight(maxPriceItems)) {
+        List<Packable> maxPriceItems = null;
 
-					maxPriceItems = list;
+        double maxPrice = 0d;
 
-				}
-			}
-		}
+        for (List<Packable> list : powerSet) {
 
-		return maxPriceItems;
-	}
+            double currentItemsWeight = getTotalWeight(list);
+
+            if (currentItemsWeight <= inputPack.getCapacity()) {
+
+                double currentItemsValue = getTotalPrice(list);
+
+                if (currentItemsValue > maxPrice) {
+                    maxPriceItems = list;
+                    maxPrice = currentItemsValue;
+                } else if (currentItemsValue == maxPrice && currentItemsWeight < getTotalWeight(maxPriceItems)) {
+
+                    maxPriceItems = list;
+
+                }
+            }
+        }
+
+        return maxPriceItems;
+    }
 
 }

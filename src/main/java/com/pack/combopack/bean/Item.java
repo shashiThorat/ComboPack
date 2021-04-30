@@ -2,39 +2,40 @@ package com.pack.combopack.bean;
 
 public class Item implements Packable {
 
-	private int id;
-	private double weight;
-	private double value;
+    private int id;
+    private double weight;
+    private double value;
 
-	public Item(int id, double weight, double value) {
-		this.id = id;
-		this.weight = weight;
-		this.value = value;
-	}
+    public Item(int id, double weight, double value) {
+        this.id = id;
+        this.weight = weight;
+        this.value = value;
+    }
 
-	@Override
-	public double getWeight() {
-		// TODO Auto-generated method stub
-		return weight;
-	}
+    @Override
+    public double getWeight() {
 
-	@Override
-	public double getValue() {
-		// TODO Auto-generated method stub
-		return value;
-	}
+        return weight;
 
-	@Override
-	public String toString() {
-		return ""+id ;
-	}
+    }
 
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
+    @Override
+    public double getValue() {
 
-	public void setValue(double value) {
-		this.value = value;
-	}
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return "" + id;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
 
 }
