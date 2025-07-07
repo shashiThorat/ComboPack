@@ -4,7 +4,7 @@ import java.util.List;
 
 
 
-public class Box<T extends Packable> {
+public class Box<T extends Packable {
 	private int id;
 	private  List<T> items;
     private double maxWeight;
