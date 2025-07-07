@@ -20,7 +20,7 @@ public class Box<T extends Packable> {
 		return "Box [id=" + id + ", items=" + items + "]";
 	}
 
-	public int getId() {
+	public  getId() {
 		return id;
 	}
 
